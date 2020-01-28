@@ -11,8 +11,8 @@ module Make (Time0 : Time0_intf.S) = struct
   include Time0
 
   let epoch = of_span_since_epoch Span.zero
-  let is_earlier t1 ~than:t2 = t1 <. t2
-  let is_later t1 ~than:t2 = t1 >. t2
+  let is_earlier t1 ~than:t2 = t1 <% t2
+  let is_later t1 ~than:t2 = t1 >% t2
 
   module Zone : sig
     include Time_intf.Zone with module Time := Time0
@@ -247,7 +247,9 @@ module Make (Time0 : Time0_intf.S) = struct
          will move by an hour in an hours' time, there *is* ambiguity. Hence [>.] for
          the first case and [<=.] for the second. *)
       match clock_shift_before_or_at, clock_shift_after with
-      | Some (start, amount), _ when add start (Span.abs amount) >. time ->
+      | Some (start, amount), _
+        when add start (Span.abs amount) >% time ->
+
         (* clock shifted recently *)
         if Span.(amount > zero)
         then
