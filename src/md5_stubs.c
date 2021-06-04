@@ -8,7 +8,6 @@
 #include <core_params.h>
 
 #define CAML_INTERNALS
-#pragma GCC diagnostic ignored "-pedantic"
 #include <caml/md5.h>
 #include <caml/sys.h>
 #undef CAML_INTERNALS
